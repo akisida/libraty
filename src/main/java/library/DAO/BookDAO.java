@@ -1,4 +1,4 @@
 package library.DAO;
 
-public class BookingDAO {
+public class BookDAO {
 }
