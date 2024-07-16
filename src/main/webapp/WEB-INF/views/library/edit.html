@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+
+</head>
+<body>
+
+
+<div th:if="${person != null && book==null}">
+<form th:method="PATCH" th:action="@{/library/people/{id}(id=${person.getId()})}" th:object="${person}">
+    <label for="fullName">Enter name: </label>
+    <input type="text" th:field="*{fullName}" id="fullName"/>
+    <!--<div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
+    <br/>
+    <label for="age">Enter age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
+    <!--<div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>-->
+
+    <input type="submit" value="Update!"/>
+</form>
+</div>
+
+
+<div th:if="${book != null}">
+    <form th:method="PATCH" th:action="@{/library/books/{id}(id=${book.getId()})}" th:object="${book}">
+        <label for="name">Enter name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <!--&lt;!&ndash;<div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>&ndash;&gt;-->
+        <br/>
+        <label for="author">Enter author: </label>
+        <input type="text" th:field="*{author}" id="author"/>
+        <!--&lt;!&ndash;<div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>&ndash;&gt;-->
+        <br>
+        <div th:if="${owner != null}">
+            <p>Current owner: <span th:text="${owner.getFullName()}"></span></p>
+        </div>
+        <label for="person">Choose people:</label>
+        <select th:name="personId" id="person">
+            <!--<option th:value="" th:text="'Please Select'"></option>-->
+            <option th:each="person : ${people}" th:value="${person.getId()}"
+                    th:text="${person.getFullName()}"></option>
+        </select>
+        <input type="submit" value="Update!"/>
+    </form>
+</div>
+</body>
+</html>

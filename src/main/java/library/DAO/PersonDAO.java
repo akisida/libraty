@@ -27,16 +27,16 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM person WHERE fullName=?", new Object[]{fullName}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
-    public Optional<Person> showById(int id) {
+    public Optional<Person> showPersonById(int id) {
         return jdbcTemplate.query("SELECT * FROM person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person(fullName, age) VALUES(?, ?)", person.getFullName(), person.getAge());
+        jdbcTemplate.update("INSERT INTO Person(fullname, birthdayear) VALUES (?, ?)", person.getFullName(), person.getAge());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET fullName=?, age=? WHERE id=?", updatedPerson.getFullName(), updatedPerson.getAge(), id);
+        jdbcTemplate.update("UPDATE person SET fullName=?, birthdayear=? WHERE id=?", updatedPerson.getFullName(), updatedPerson.getAge(), id);
     }
 
     public void delete(int id) {

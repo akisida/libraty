@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person Not Found</title>
+</head>
+<body>
+<div th:if="${person}">
+<p>Person not found</p>
+<a href="/library/people">Back to list</a>
+</div>
+<div th:if="${book}">
+    <p>Book not found</p>
+    <a href="/library/books">Back to list</a>
+</div>
+</body>
+</html>
