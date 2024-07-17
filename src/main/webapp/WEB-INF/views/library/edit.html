@@ -14,6 +14,7 @@
     <input type="text" th:field="*{fullName}" id="fullName"/>
     <!--<div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
     <br/>
+
     <label for="age">Enter age: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <!--<div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>-->
@@ -33,15 +34,8 @@
         <input type="text" th:field="*{author}" id="author"/>
         <!--&lt;!&ndash;<div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>&ndash;&gt;-->
         <br>
-        <div th:if="${owner != null}">
-            <p>Current owner: <span th:text="${owner.getFullName()}"></span></p>
-        </div>
-        <label for="person">Choose people:</label>
-        <select th:name="personId" id="person">
-            <!--<option th:value="" th:text="'Please Select'"></option>-->
-            <option th:each="person : ${people}" th:value="${person.getId()}"
-                    th:text="${person.getFullName()}"></option>
-        </select>
+
+
         <input type="submit" value="Update!"/>
     </form>
 </div>

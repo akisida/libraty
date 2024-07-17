@@ -1,6 +1,7 @@
 package library.DAO;
 
 import library.mapper.PersonMapper;
+import library.models.Book;
 import library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -41,5 +42,9 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
+    }
+    public List<Book> getBooksTakes(int personId) {
+        String sql = "SELECT b.* FROM book b INNER JOIN personbook pb ON b.id = pb.book_id WHERE pb.person_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{personId}, new BeanPropertyRowMapper<>(Book.class));
     }
 }

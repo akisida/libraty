@@ -52,7 +52,10 @@ public class BookDAO {
         return jdbcTemplate.query(sql, new Object[]{bookId}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
     public void assignBookToPerson(int personId, int bookId) {
-        jdbcTemplate.update("DELETE FROM personbook WHERE book_id=?",bookId);
+        deletePersonFromBook(bookId);
         jdbcTemplate.update("INSERT INTO personbook (person_id, book_id) VALUES (?, ?)", personId, bookId);
+    }
+    public void deletePersonFromBook(int bookId){
+        jdbcTemplate.update("DELETE FROM personbook WHERE book_id=?",bookId);
     }
 }

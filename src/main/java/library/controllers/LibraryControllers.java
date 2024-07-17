@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.midi.Patch;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -48,9 +50,12 @@ public class LibraryControllers {
     public String showPeopleById(@PathVariable("id") int id, Model model) {
         System.out.println("Show people by id called with id: " + id);
         Optional<Person> person = personDAO.showPersonById(id);
+        List<Book> books = personDAO.getBooksTakes(id);
+
         if (person.isPresent()) {
             System.out.println("Person found: " + person.get());
             model.addAttribute("person", person.get());
+            model.addAttribute("books", books);
             return "library/show";
         } else {
             System.out.println("Person not found with id: " + id);
@@ -81,6 +86,7 @@ public class LibraryControllers {
         if (person.isPresent()) {
             System.out.println("Person found: " + person.get());
             model.addAttribute("person", person.get());
+
             return "library/edit";
         } else {
             System.out.println("Person not found with id: " + id);
@@ -114,10 +120,13 @@ public class LibraryControllers {
     @GetMapping("/books/{id}")
     public String showBookById(@PathVariable("id") int id, Model model) {
         System.out.println("Show book by id called with id: " + id);
+        model.addAttribute("people", personDAO.index());
         Optional<Book> book = bookDAO.showBookById(id);
+        Optional<Person> owner = bookDAO.getBookOwner(id);
         if (book.isPresent()) {
             System.out.println("Book found: " + book.get());
             model.addAttribute("book", book.get());
+            owner.ifPresent(person -> model.addAttribute("owner", person));
             return "library/show";
         } else {
             System.out.println("Book not found with id: " + id);
@@ -144,35 +153,35 @@ public class LibraryControllers {
     @GetMapping("/books/{id}/edit")
     public String BookEdit(@PathVariable("id") int id, Model model) {
         System.out.println("Edit method called with id: " + id);
-        model.addAttribute("people", personDAO.index());
         Optional<Book> book = bookDAO.showBookById(id);
-        Optional<Person> owner = bookDAO.getBookOwner(id);
-
         if (book.isPresent()) {
             System.out.println("Book found: " + book.get());
             model.addAttribute("book", book.get());
-            owner.ifPresent(person -> model.addAttribute("owner", person));
             return "library/edit";
         } else {
             System.out.println("Book not found with id: " + id);
             return "library/not_found";
         }
     }
+    @PatchMapping("/books/{id}/assign")
+    public String assignBookToPerson(@PathVariable("id") int bookId, @RequestParam("personId") int personId) {
+        bookDAO.assignBookToPerson(personId, bookId);
+        return "redirect:/library/books/" + bookId;
+    }
+    @DeleteMapping("/books/{id}/free")
+    public String freeBook(@PathVariable("id") int bookId) {
+        bookDAO.deletePersonFromBook(bookId);
+        return "redirect:/library/books/" + bookId;
+    }
     @PatchMapping("/books/{id}")
-    public String update(@ModelAttribute("book") @Valid Book book,BindingResult bindingResult, @PathVariable("id")int id,  @RequestParam(value = "personId", required = false) Integer personId)
+    public String update(@ModelAttribute("book") @Valid Book book,BindingResult bindingResult, @PathVariable("id")int id)
     {
-       /* personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "library/edit";
-        }*/
+
 
         bookDAO.update(id,book);
 
         Optional<Person> currentOwner = bookDAO.getBookOwner(id);
-        if (personId != null) {
-            System.out.println("create");
-            bookDAO.assignBookToPerson(personId, id);
-        }
+
 
         return "redirect:/library/books";
     }

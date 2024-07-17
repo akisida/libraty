@@ -9,7 +9,17 @@
     <p th:text="${person.getFullName()}">VALUE</p>
     <p th:text="${person.getAge()}">VALUE</p>
     <p th:text="${person.getId()}">VALUE</p>
-    <a th:href="@{/library/people/{id}/edit(id=${person.getId()})}">Edit</a>
+    <div th:if="${books != null}">
+        <p th:if="${books.size()!=0}">Current books:</p>
+        <p th:if="${books.size()==0}">person don't take books yet</p>
+        <ul>
+            <li th:each="book : ${books}" th:text="${book.getName()}"></li>
+        </ul>
+    </div>
+    <hr>
+    <form th:method="GET" th:action="@{/library/people/{id}/edit(id=${person.getId()})}">
+        <button>edit</button>
+    </form>
     <form th:method="DELETE" th:action="@{/library/people/{id}(id=${person.getId()})}">
         <input type="submit" value="Delete"/>
     </form>
@@ -18,7 +28,27 @@
     <p th:text="${book.getName()}">VALUE</p>
     <p th:text="${book.getId()}">VALUE</p>
     <p th:text="${book.getAuthor()}">VALUE</p>
-    <a th:href="@{/library/books/{id}/edit(id=${book.getId()})}">Edit</a>
+    <div th:if="${owner == null}">
+        <p>Book without people</p>
+        <form th:method="PATCH" th:action="@{/library/books/{id}/assign(id=${book.getId()})}">
+            <label for="person">Choose person:</label>
+            <select th:name="personId" id="person">
+                <option th:each="person : ${people}" th:value="${person.getId()}"
+                        th:text="${person.getFullName()}"></option>
+            </select>
+            <button type="submit">Assign</button>
+        </form>
+    </div>
+    <div th:if="${owner != null}">
+        <form th:method="DELETE" th:action="@{/library/books/{id}/free(id=${book.getId()})}">
+        <p>Current owner: <span th:text="${owner.getFullName()}"></span></p>
+            <button type="submit">Free book</button>
+        </form>
+    </div>
+    <hr>
+    <form th:method="GET" th:action="@{/library/books/{id}/edit(id=${book.getId()})}">
+        <button>edit</button>
+    </form>
     <form th:method="DELETE" th:action="@{/library/books/{id}(id=${book.getId()})}">
         <input type="submit" value="Delete"/>
     </form>
