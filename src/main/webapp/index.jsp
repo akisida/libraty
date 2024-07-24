@@ -9,5 +9,7 @@
 <a href="/library/new_person">Create new person</a>
 <br>
 <a href="/library/new_book">Create new book</a>
+<br>
+<a href="/library/books/search">Search book</a>
 </body>
 </html>

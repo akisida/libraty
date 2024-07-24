@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/library")
 public class LibraryControllers {
 
-    private final PersonDAO personDAO;
+   /* private final PersonDAO personDAO;
     private final BookDAO bookDAO;
     private final PersonValidator personValidator;
 
@@ -70,9 +70,9 @@ public class LibraryControllers {
     @PostMapping("/people")
     public String createPerson(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
-        /*personValidator.validate(person, bindingResult);
+        *//*personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
-            return "library/new_person";*/
+            return "library/new_person";*//*
 
         personDAO.save(person);
 
@@ -96,10 +96,10 @@ public class LibraryControllers {
     @PatchMapping("/people/{id}")
     public String update(@ModelAttribute("person") @Valid Person person,BindingResult bindingResult, @PathVariable("id")int id)
     {
-       /* personValidator.validate(person, bindingResult);
+       *//* personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "library/edit";
-        }*/
+        }*//*
         personDAO.update(id,person);
         return "redirect:/library/people";
     }
@@ -141,9 +141,9 @@ public class LibraryControllers {
     @PostMapping("/books")
     public String createBook(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
-        /*personValidator.validate(person, bindingResult);
+        *//*personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
-            return "library/new_person";*/
+            return "library/new_person";*//*
 
         bookDAO.save(book);
 
@@ -190,5 +190,5 @@ public class LibraryControllers {
     public String deleteBook(@PathVariable("id") int id) {
         bookDAO.delete(id);
         return "redirect:/library/books";
-    }
+    }*/
 }

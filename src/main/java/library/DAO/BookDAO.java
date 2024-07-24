@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Component
 public class BookDAO {
-    private final JdbcTemplate jdbcTemplate;
+   /* private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public BookDAO(JdbcTemplate jdbcTemplate) {
@@ -57,5 +57,5 @@ public class BookDAO {
     }
     public void deletePersonFromBook(int bookId){
         jdbcTemplate.update("DELETE FROM personbook WHERE book_id=?",bookId);
-    }
+    }*/
 }

@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Show</title>
+    <style>
+        .overdue {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div th:if="${person != null}">
     <p th:text="${person.getFullName()}">VALUE</p>
-    <p th:text="${person.getAge()}">VALUE</p>
+    <p th:text="${person.getBirthdayear()}">VALUE</p>
     <p th:text="${person.getId()}">VALUE</p>
     <div th:if="${books != null}">
         <p th:if="${books.size()!=0}">Current books:</p>
         <p th:if="${books.size()==0}">person don't take books yet</p>
         <ul>
-            <li th:each="book : ${books}" th:text="${book.getName()}"></li>
+            <li th:each="book : ${books}"
+                th:classappend="${book.isPeriod()} ? 'overdue' : ''"
+                th:text="${book.getName()}"></li>
+        </ul>
         </ul>
     </div>
     <hr>
